@@ -2,21 +2,21 @@
     <form [formGroup]="FormCarData" (ngSubmit)="addData()">
         <mat-form-field appearance="fill">
             <mat-label>Model</mat-label>
-            <input matInput placeholder="Ford" formControlName="model" id="test" required>
-            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageModel()}}</mat-error>
+            <input matInput type="text" placeholder="Ford" formControlName="model" id="test" required>
+            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageModel(FormCarData)}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Count</mat-label>
-            <input matInput placeholder="Ford" formControlName="count" required>
-            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageCount()}}</mat-error>
+            <input matInput type="text" placeholder="Ford" formControlName="count" required>
+            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageCount(FormCarData)}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>changeQuantityPercent</mat-label>
-            <input matInput placeholder="Ford" formControlName="changeQuantityPercent" required>
-            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageChangeQuantityPercent()}}</mat-error>
+            <input matInput type="text" placeholder="Ford" formControlName="changeQuantityPercent" required>
+            <mat-error *ngIf="FormCarData.invalid">{{getErrorMessageChangeQuantityPercent(FormCarData)}}</mat-error>
         </mat-form-field>
         <div>
-            <button mat-flat-button type="submit" class="btn-submit" type="submit" [disabled]="!FormCarData.valid">Enroll Country</button>
+            <button mat-flat-button type="submit" class="btn-submit" type="submit" [disabled]="!FormCarData.valid">Add data</button>
         </div>
     </form>
 
@@ -28,31 +28,56 @@
     </button>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-    <!-- Position Column -->
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 demo-table">
     <ng-container matColumnDef="rank">
         <th mat-header-cell *matHeaderCellDef>rank</th>
         <td mat-cell *matCellDef="let element">{{element.rank}}</td>
     </ng-container>
-
-    <!-- Name Column -->
     <ng-container matColumnDef="model">
         <th mat-header-cell *matHeaderCellDef>Model</th>
         <td mat-cell *matCellDef="let element">{{element.model}}</td>
     </ng-container>
-
-    <!-- Weight Column -->
     <ng-container matColumnDef="count">
         <th mat-header-cell *matHeaderCellDef>Total</th>
         <td mat-cell *matCellDef="let element">{{element.count}}</td>
     </ng-container>
-
-    <!-- Symbol Column -->
     <ng-container matColumnDef="changeQuantityPercent">
         <th mat-header-cell *matHeaderCellDef>changeQuantityPercent</th>
         <td mat-cell *matCellDef="let element">{{element.changeQuantityPercent}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div>
+                    <form [formGroup]="FormEditCarData" (ngSubmit)="replaceData()">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Model</mat-label>
+                            <input matInput type="text" placeholder="Ford" formControlName="model" id="test" required>
+                            <mat-error *ngIf="FormEditCarData.invalid">{{getErrorMessageModel(FormEditCarData)}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Count</mat-label>
+                            <input matInput type="text" placeholder="0" formControlName="count" required>
+                            <mat-error *ngIf="FormEditCarData.invalid">{{getErrorMessageCount(FormEditCarData)}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>changeQuantityPercent</mat-label>
+                            <input matInput type="text" placeholder="0" formControlName="changeQuantityPercent" required>
+                            <mat-error *ngIf="FormEditCarData.invalid">{{getErrorMessageChangeQuantityPercent(FormEditCarData)}}</mat-error>
+                        </mat-form-field>
+                        <div>
+                            <button mat-flat-button type="submit" class="btn-submit" type="submit" [disabled]="!FormEditCarData.valid">Replace data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row" [class.example-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element; setEditFormData();">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
 </table>

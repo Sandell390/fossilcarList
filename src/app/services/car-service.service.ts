@@ -10,12 +10,12 @@ export class CarServiceService {
   CarSource: CarDatasource;
 
   private CarList: CarData[] = [
-    {rank: 1, model: "Kage", count: 12, changeQuantityPercent: 100},
-    {rank: 2, model: "Cookie", count: 1, changeQuantityPercent: 2},
-    {rank: 3, model: "Muffin", count: 412, changeQuantityPercent: 140},
-    {rank: 4, model: "vingummi", count: 634, changeQuantityPercent: 785},
-    {rank: 5, model: "chokolade", count: 2, changeQuantityPercent: 38},
-    {rank: 6, model: "is", count: 186, changeQuantityPercent: 4}
+    {rank: 1, model: "Citroen C3", count: 2268, changeQuantityPercent: -27},
+    {rank: 2, model: "Peugeot 208", count: 	2107, changeQuantityPercent: -24},
+    {rank: 3, model: "Kia Ceed", count: 	1750, changeQuantityPercent: -1},
+    {rank: 4, model: "Ford Kuga", count: 1619, changeQuantityPercent: -53},
+    {rank: 5, model: "Toyota Yaris", count: 1515, changeQuantityPercent: -45},
+    {rank: 6, model: "VW T Roc", count: 1435, changeQuantityPercent: -7}
   ];
 
   getLength(): number {
@@ -28,6 +28,11 @@ export class CarServiceService {
 
   addData(data: CarData) {
     this.CarList.push(data);
+    this.CarSource.setData(this.CarList);
+  }
+
+  replaceData(data: CarData){
+    this.CarList[this.CarList.findIndex(x => x.rank == data.rank)] = data;
     this.CarSource.setData(this.CarList);
   }
 
