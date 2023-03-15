@@ -9,7 +9,7 @@ export class CarServiceService {
 
   CarSource: CarDatasource;
 
-  CarList: CarData[] = [
+  private CarList: CarData[] = [
     {rank: 1, model: "Kage", count: 12, changeQuantityPercent: 100},
     {rank: 2, model: "Cookie", count: 1, changeQuantityPercent: 2},
     {rank: 3, model: "Muffin", count: 412, changeQuantityPercent: 140},
@@ -18,8 +18,17 @@ export class CarServiceService {
     {rank: 6, model: "is", count: 186, changeQuantityPercent: 4}
   ];
 
+  getLength(): number {
+    return this.CarList.length;
+  }
+
   constructor() { 
     this.CarSource = new CarDatasource(this.CarList);
+  }
+
+  addData(data: CarData) {
+    this.CarList.push(data);
+    this.CarSource.setData(this.CarList);
   }
 
   removeData(){

@@ -1,9 +1,10 @@
-import {DataSource} from '@angular/cdk/collections';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {Observable, ReplaySubject} from 'rxjs';
 import { CarData } from '../interfaces/car-data';
 
 export class CarDatasource extends DataSource<CarData> {
-    private _dataStream = new ReplaySubject<CarData[]>
+  
+    private _dataStream = new ReplaySubject<CarData[]>();
 
     constructor(carData: CarData[]){
         super();
